@@ -1,0 +1,65 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v3.3.0
+    hooks:
+      - id: check-added-large-files
+        args: [--maxkb=5000]
+      - id: check-json
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: debug-statements
+      - id: detect-aws-credentials
+        args: [--allow-missing-credentials]
+      - id: detect-private-key
+      - id: end-of-file-fixer
+      - id: name-tests-test
+        args: [--django] # to match `test*.py`.
+      # - id: no-commit-to-branch   # to protect specific branches from direct checkins.
+      # args: [--branch, master]
+      - id: pretty-format-json
+        args: [--autofix]
+
+  - repo: https://gitlab.com/pycqa/flake8
+    rev: 3.8.1
+    hooks:
+      - id: flake8
+        args: [--config, ".flake"]
+        additional_dependencies:
+          [
+            wemake-python-styleguide,
+            flake8-bugbear,
+            flake8-builtins,
+            flake8-eradicate,
+            pep8-naming,
+            flake8-expression-complexity,
+            flake8-cognitive-complexity,
+            flake8-pytest-style,
+          ]
+
+  - repo: https://github.com/psf/black
+    rev: stable
+    hooks:
+      - id: black
+        language_version: python3
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.5.2
+    hooks:
+      - id: isort
+        args: ["--settings-path=pyproject.toml"]
+
+  # for docstrings in python codes
+  - repo: https://github.com/myint/docformatter
+    rev: master
+    hooks:
+      - id: docformatter
+        args: [--in-place]
+
+  # for markdown
+  - repo: https://github.com/markdownlint/markdownlint
+    rev: master # or specific git tag
+    hooks:
+      - id: markdownlint
+        # ignore line length of makrdownlint
+        args: [-r, ~MD013]
